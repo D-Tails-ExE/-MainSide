@@ -1,51 +1,104 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Social Media Links</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <title>Taschenrechner</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #222;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .calculator {
+      background: #333;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #000;
+    }
+    .display {
+      background: black;
+      color: lime;
+      font-size: 2em;
+      padding: 10px;
+      margin-bottom: 10px;
+      text-align: right;
+      border-radius: 5px;
+    }
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 60px);
+      gap: 10px;
+    }
+    button {
+      padding: 15px;
+      font-size: 1.2em;
+      background: #555;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #777;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Welcome to My Social Media</h1>
-        </header>
-        <main>
-            <section class="social-links">
-                <a href="https://www.tiktok.com" target="_blank" class="social-link">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/TikTok_logo_2021.svg/1200px-TikTok_logo_2021.svg.png" alt="TikTok" class="social-icon">
-                </a>
-                <a href="https://www.youtube.com" target="_blank" class="social-link">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png" alt="YouTube" class="social-icon">
-                </a>
-                <a href="https://twitter.com" target="_blank" class="social-link">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Twitter_Logo_2021.svg" alt="Twitter" class="social-icon">
-                </a>
-                <a href="https://www.instagram.com" target="_blank" class="social-link">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="social-icon">
-                </a>
-                <a href="https://discord.com" target="_blank" class="social-link">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Discord_logo_2021.svg" alt="Discord" class="social-icon">
-                </a>
-            </section>
-            <section class="about">
-                <button class="info-btn" onclick="showInfo()">About Me</button>
-                <div id="info" class="info-box" style="display:none;">
-                    <p>Hello! I'm a passionate content creator who loves to connect with people. Follow me on my social media for updates!</p>
-                </div>
-            </section>
-        </main>
+  <div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+      <button onclick="clearDisplay()">C</button>
+      <button onclick="appendValue('/')">/</button>
+      <button onclick="appendValue('*')">*</button>
+      <button onclick="deleteLast()">⌫</button>
+
+      <button onclick="appendValue('7')">7</button>
+      <button onclick="appendValue('8')">8</button>
+      <button onclick="appendValue('9')">9</button>
+      <button onclick="appendValue('-')">-</button>
+
+      <button onclick="appendValue('4')">4</button>
+      <button onclick="appendValue('5')">5</button>
+      <button onclick="appendValue('6')">6</button>
+      <button onclick="appendValue('+')">+</button>
+
+      <button onclick="appendValue('1')">1</button>
+      <button onclick="appendValue('2')">2</button>
+      <button onclick="appendValue('3')">3</button>
+      <button onclick="calculate()">=</button>
+
+      <button onclick="appendValue('0')" style="grid-column: span 2">0</button>
+      <button onclick="appendValue('.')">.</button>
     </div>
-    <script>
-        function showInfo() {
-            var infoBox = document.getElementById('info');
-            if (infoBox.style.display === 'none') {
-                infoBox.style.display = 'block';
-            } else {
-                infoBox.style.display = 'none';
-            }
-        }
-    </script>
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+
+    function appendValue(value) {
+      if (display.textContent === "0") display.textContent = "";
+      display.textContent += value;
+    }
+
+    function clearDisplay() {
+      display.textContent = "0";
+    }
+
+    function deleteLast() {
+      display.textContent = display.textContent.slice(0, -1) || "0";
+    }
+
+    function calculate() {
+      try {
+        display.textContent = eval(display.textContent);
+      } catch {
+        display.textContent = "Fehler";
+      }
+    }
+  </script>
 </body>
 </html>
