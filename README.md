@@ -1,102 +1,80 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Taschenrechner</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cookie Clicker</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #222;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      background-color: #f3e5ab;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 50px;
     }
-    .calculator {
-      background: #333;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #000;
+    h1 {
+      color: #5d4037;
     }
-    .display {
-      background: black;
-      color: lime;
-      font-size: 2em;
-      padding: 10px;
-      margin-bottom: 10px;
-      text-align: right;
-      border-radius: 5px;
-    }
-    .buttons {
-      display: grid;
-      grid-template-columns: repeat(4, 60px);
-      gap: 10px;
-    }
-    button {
-      padding: 15px;
-      font-size: 1.2em;
-      background: #555;
-      color: white;
-      border: none;
-      border-radius: 5px;
+    #cookie {
+      width: 200px;
       cursor: pointer;
+      transition: transform 0.1s;
     }
-    button:hover {
-      background: #777;
+    #cookie:active {
+      transform: scale(0.95);
+    }
+    #counter {
+      font-size: 2em;
+      margin: 20px 0;
+    }
+    .upgrade {
+      background-color: #8d6e63;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      margin-top: 20px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .upgrade:hover {
+      background-color: #a1887f;
     }
   </style>
 </head>
 <body>
-  <div class="calculator">
-    <div class="display" id="display">0</div>
-    <div class="buttons">
-      <button onclick="clearDisplay()">C</button>
-      <button onclick="appendValue('/')">/</button>
-      <button onclick="appendValue('*')">*</button>
-      <button onclick="deleteLast()">⌫</button>
-
-      <button onclick="appendValue('7')">7</button>
-      <button onclick="appendValue('8')">8</button>
-      <button onclick="appendValue('9')">9</button>
-      <button onclick="appendValue('-')">-</button>
-
-      <button onclick="appendValue('4')">4</button>
-      <button onclick="appendValue('5')">5</button>
-      <button onclick="appendValue('6')">6</button>
-      <button onclick="appendValue('+')">+</button>
-
-      <button onclick="appendValue('1')">1</button>
-      <button onclick="appendValue('2')">2</button>
-      <button onclick="appendValue('3')">3</button>
-      <button onclick="calculate()">=</button>
-
-      <button onclick="appendValue('0')" style="grid-column: span 2">0</button>
-      <button onclick="appendValue('.')">.</button>
-    </div>
-  </div>
+  <h1>Cookie Clicker</h1>
+  <img id="cookie" src="https://upload.wikimedia.org/wikipedia/commons/6/69/Chocolate_Chip_Cookie.png" alt="Cookie" />
+  <div id="counter">Cookies: 0</div>
+  <button class="upgrade" onclick="buyUpgrade()">Buy Auto-Click (Cost: 50)</button>
 
   <script>
-    const display = document.getElementById('display');
+    let cookies = 0;
+    let autoClickers = 0;
+    let upgradeCost = 50;
 
-    function appendValue(value) {
-      if (display.textContent === "0") display.textContent = "";
-      display.textContent += value;
+    const counter = document.getElementById("counter");
+    const cookie = document.getElementById("cookie");
+
+    cookie.onclick = () => {
+      cookies++;
+      updateCounter();
+    };
+
+    function updateCounter() {
+      counter.textContent = `Cookies: ${cookies}`;
     }
 
-    function clearDisplay() {
-      display.textContent = "0";
-    }
-
-    function deleteLast() {
-      display.textContent = display.textContent.slice(0, -1) || "0";
-    }
-
-    function calculate() {
-      try {
-        display.textContent = eval(display.textContent);
-      } catch {
-        display.textContent = "Fehler";
+    function buyUpgrade() {
+      if (cookies >= upgradeCost) {
+        cookies -= upgradeCost;
+        autoClickers++;
+        upgradeCost = Math.floor(upgradeCost * 1.5);
+        setInterval(() => {
+          cookies += autoClickers;
+          updateCounter();
+        }, 1000);
+        updateCounter();
+      } else {
+        alert("Not enough cookies!");
       }
     }
   </script>
